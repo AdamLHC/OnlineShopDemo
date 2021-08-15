@@ -1,0 +1,75 @@
+﻿@using OnlineShopDemo.Data.WebDBContext
+@model IEnumerable<ProductSetRecord>
+
+<table class="table">
+    <tr>
+        <th>
+            <p>內含產品</p>
+        </th>
+        <th>
+            <p>數量</p>
+        </th>
+        <th>
+            <p>編輯</p>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#@item.ProductID@item.ProductSetID-Quantity ">數量</button> |
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#@item.ProductID@item.ProductSetID-Delete ">刪除</button>
+                <!-- Modal -->
+
+                <div id="@item.ProductID@item.ProductSetID-Quantity" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">修改 <mark> @item.Product.ProductName </mark> 的數量 <small>在 @item.ProductSet.ProductName 裡面</small></h4>
+                            </div>
+                            <div class="modal-body">
+                                @await Component.InvokeAsync("ProductSetEdit", new { pid = item.ProductID, psid = item.ProductSetID })
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="@item.ProductID@item.ProductSetID-Delete" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">刪除</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="modal-title">確定要刪除 <code> @item.Product.ProductName</code>嗎?<small> (在 @item.ProductSet.ProductName 裡面)</small></h4>
+                                <h5 class="text-danger">警告:一旦刪除就無法復原!</h5>
+                            </div>
+                            <div class="modal-footer">
+                                @Html.ActionLink("刪除", "ProductSetDelete", new { pid = item.ProductID, psid = item.ProductSetID }, new { @class = "btn btn-danger" })
+                                <span>|</span>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+                                    }
+</table>

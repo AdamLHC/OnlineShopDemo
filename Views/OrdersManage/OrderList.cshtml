@@ -1,0 +1,143 @@
+﻿@model IEnumerable<OnlineShopDemo.Data.WebDBContext.OrderRecord>
+
+@{
+    ViewData["Title"] = "訂單列表";
+    Layout = "~/Views/Shared/_BackstageLayout.cshtml";
+}
+
+<h2>訂單列表</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+                   asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="OrderCreateDate" asp-route-Page="1">訂貨日期</a>
+            </th>
+            <th>
+                <a asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+                   asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="OrdererName" asp-route-Page="1">姓名</a>
+            </th>
+            <th class="SMDeviceOpt">
+                <a asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+                   asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="PhoneNumber" asp-route-Page="1">電話</a>
+            </th>
+            <th class="SMDeviceOpt">
+                <a asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+                   asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="ShippingAddress" asp-route-Page="1">地址</a>
+            </th>
+            <th class="SMDeviceOpt">
+                <a asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+                   asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="TotalPrice" asp-route-Page="1">總價</a>
+            </th>
+            <th>
+                <a asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+                   asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="PaymentMethod" asp-route-Page="1">付款方式</a>
+            </th>
+            <th>
+                訂單狀態
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.IsShipped == true)
+            {
+                ViewBag.trCSS = "success";
+                ViewBag.OrderStatus = "已經送出";
+            }
+            else if (item.IsCanceled == true)
+            {
+                ViewBag.trCSS = "";
+                ViewBag.OrderStatus = "訂單取消";
+            }
+            else if (item.IsShipped == false && DateTime.Compare(item.OrderCreateDate.AddDays(3), DateTime.Today) <= 0)
+            {
+                ViewBag.trCSS = "danger";
+                ViewBag.OrderStatus = "等待處理(已經超過3天!)";
+            }
+            else if (item.IsShipped == false)
+            {
+                ViewBag.trCSS = "warning";
+                ViewBag.OrderStatus = "等待處理";
+            }
+
+            <tr class="@ViewBag.trCSS">
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderCreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdererName)
+                </td>
+                <td class="SMDeviceOpt">
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td class="SMDeviceOpt">
+                    @Html.DisplayFor(modelItem => item.ShippingAddress)
+                </td>
+                <td class="SMDeviceOpt">
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                </td>
+                <td>
+                    @ViewBag.OrderStatus
+                </td>
+                <td>
+                    @Html.ActionLink("檢視訂單", "Details", new { id = item.OrderID }, new { @class = "btn btn-default" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    if (Model.Count() == 0)
+    {
+        <p>是空的耶 :D</p>
+    }
+}
+
+@{
+    if (ViewBag.Page == 1 && ViewBag.MorePage == false)
+    {
+
+    }
+    else if (ViewBag.Page == 1 && ViewBag.MorePage == true)
+    {
+        <a class="btn btn-default" asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+           asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="@ViewBag.Orderby" asp-route-Page="@(ViewBag.Page + 1)">下一頁</a>
+    }
+    else if (ViewBag.Page != 1 && ViewBag.MorePage == false)
+    {
+        <a class="btn btn-default" asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+           asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="@ViewBag.Orderby" asp-route-Page="@(ViewBag.Page - 1)">上一頁</a>
+
+    }
+    else
+    {
+        <a class="btn btn-default" asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+           asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="@ViewBag.Orderby" asp-route-Page="@(ViewBag.Page - 1)">上一頁</a>
+
+        <a class="btn btn-default" asp-action="OrderList" asp-route-isShipped="@ViewBag.ShippedFilter"
+           asp-route-isCanceled="@ViewBag.CanceledFilter" asp-route-PageSize="20" asp-route-Orderby="@ViewBag.Orderby" asp-route-Page="@(ViewBag.Page + 1)">下一頁</a>
+    }
+}
+
+<hr />
+
+<a class="btn btn-default" asp-action="Index">返回總攬</a>
+
+
+
+<style type="text/css">
+    @@media(max-width:1100px) {
+        .SMDeviceOpt {
+            visibility: hidden;
+            display: none;
+        }
+    }
+</style>

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ShoppingCartPool>
+
+@{
+    Layout = null;
+    double? Price = 0; foreach (var item in Model) { Price = Price + item.Products.Price * item.Quantity; }
+}
+
+<table class="table table-striped table-responsive">
+    <tr>
+        <th>
+            <span>商品</span>
+        </th>
+        <th>
+            <span>價格</span>
+        </th>
+        <th>
+            <span>數量</span>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <span>@Html.DisplayFor(modelitem => item.Products.ProductName)</span>
+            </td>
+            <td>
+                <span>@Html.DisplayFor(modelitem => item.Products.Price) </span>
+            </td>
+            <td>
+                <span>@Html.DisplayFor(modelitem => item.Quantity) </span>
+            </td>
+        </tr>
+    }
+</table>
+
+
+<style>
+    .price {
+        font-size: 20px;
+        color: steelblue;
+        margin-bottom: 0;
+    }
+</style>

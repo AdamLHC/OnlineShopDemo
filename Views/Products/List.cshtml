@@ -1,0 +1,93 @@
+﻿@using OnlineShopDemo.Data.WebDBContext;
+@model IEnumerable<Products>
+
+@{
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+ }
+
+@await Component.InvokeAsync("CategoryNav", new { mode = ViewBag.mode, Start = ViewBag.CaeNavStart, End = ViewBag.CaeNavEnd }) <!--Display function Bar-->
+
+<section class="S1 container">
+    @foreach (var item in Model)
+            {
+        <div class="col-lg-4 col-md-6 col-sm-12 ProductBox">
+
+            <a asp-action="Details" asp-route-id="@item.ProductID">
+                <img class="img-thumbnail" src="@Url.Content($"~/images/ProductResource/{item.ProductID}.jpg")" />
+            </a>
+
+            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
+
+            <span>@Html.DisplayFor(modelItem => item.Notes)</span>
+
+            <h5>@Html.DisplayFor(modelItem => item.Introduction)</h5>
+
+            <span>NT$@Html.DisplayFor(modelItem => item.Price) |</span>
+
+            @{
+                if (ViewBag.mode == "List")
+                {@Html.ActionLink("檢視商品", "Details", new { id = item.ProductID }) }
+                else
+                {@Html.ActionLink("檢視商品", "FarmDetails", new { id = item.ProductID })  }
+            }
+            <span>|</span> @Html.ActionLink("放進購物車", "AddtoCart", "ShoppingCart", new { id = item.ProductID },null)
+
+        </div>
+                }
+</section>
+
+
+
+    <style type="text/css">
+        .ProductBox {
+            min-height: 450px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        aside {
+            width: 15%;
+            border-right: solid;
+            border-right-color: grey;
+        }
+
+        .ProductBox img {
+            width: 100%;
+        }
+
+        .ProductBox span {
+            color: darkgrey;
+        }
+
+        .ProductBox h3 {
+            color: steelblue;
+        }
+
+        .ProductBox h5 {
+            font-size: medium;
+        }
+
+        .S1 {
+            width: 100%;
+            min-height: 25px;
+            margin: 0;
+            padding: 10px;
+            padding-bottom:0;
+        }
+
+            .S1 hr {
+                margin: 0;
+            }
+
+        @@media (max-width: 1100px) {
+            .ProductBox {
+                min-height: initial;
+                margin-bottom:40px;
+            }
+           h3
+           {
+               margin-top:10px;
+           }
+        }
+    </style>
+

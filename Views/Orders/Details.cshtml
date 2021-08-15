@@ -1,0 +1,113 @@
+﻿@model OrderRecord
+
+@{
+    ViewBag.Title = "查看訂貨單";
+    ViewBag.Headtitle = "會員專區 | 檢視訂貨單";
+    ViewBag.background = Url.Content("~/images/ShopBanner.jpg");
+    ViewBag.background4k = Url.Content("~/images/ShopBanner4k.jpg");
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+
+    if (Model.IsShipped == true)
+    {
+        ViewBag.trCSS = "text-success";
+        ViewBag.OrderStatus = "已經送出";
+    }
+    else if (Model.IsCanceled == true)
+    {
+        ViewBag.trCSS = "";
+        ViewBag.OrderStatus = "訂單取消";
+    }
+    else if (Model.IsShipped == false)
+    {
+        ViewBag.trCSS = "info";
+        ViewBag.OrderStatus = "訂單處理中";
+    }
+
+}
+<hr />
+<div class=" container">
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <h4>訂單編號 @Model.OrderID.ToString() </h4>
+        <h4 class="@ViewBag.trCSS">訂單狀態: @ViewBag.OrderStatus </h4>
+    </div>
+
+    <hr class="col-md-12" />
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <label class="col-md-4 col-sm-6 control-label">訂貨時間</label>
+        <span class="col-md-8 col-sm-6">@Model.OrderCreateDate.ToString()</span>
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <label class="col-md-4 col-sm-6 control-label">收件人姓名</label>
+        <span class="col-md-8 col-sm-6">@Model.OrdererName.ToString()</span>
+    </div>
+
+    <div class="col-md-6 col-sm-6 ">
+        <label class="col-md-4 col-sm-6 control-label">收件人的電話</label>
+        <span class="col-md-8 col-sm-6">
+            @Model.PhoneNumber.ToString()
+        </span>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <label class="col-md-4 col-sm-6 control-label">收件地址</label>
+        <span class="col-md-8 col-sm-6">
+            @Model.ShippingAddress.ToString()
+        </span>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <label asp-for="EmailAddress" class="col-md-4 col-sm-6 control-label">收件人的電子郵件</label>
+        <span class="col-md-8 col-sm-6">
+            @Model.EmailAddress.ToString()
+        </span>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <label class="col-md-4 col-sm-6 control-label">付款方式</label>
+        <span class="col-md-8 col-sm-6">
+            @Model.PaymentMethod.ToString()
+        </span>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <label class="col-md-4 col-sm-6 control-label">備註</label>
+        <span class="col-md-8 col-sm-6">
+            @{if (Model.Note != null)
+                {
+                    @Model.Note.ToString()
+                }
+                else
+                {
+                    <span>  </span>
+                }
+            }
+        </span>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <label class="col-md-4 col-sm-6 control-label">總共價格</label>
+        <span class="col-md-8 col-sm-6">
+            @Model.TotalPrice.ToString() 元
+        </span>
+    </div>
+
+    <hr class="col-md-12" />
+
+    @await Component.InvokeAsync("OrderItemsPoolList", new { id = Model.OrderID, Manage = false })
+
+</div>
+
+<hr>
+<div>
+    <a class="btn btn-default btn-block" onclick="goBack()">返回</a>
+</div>
+
+<hr />
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>

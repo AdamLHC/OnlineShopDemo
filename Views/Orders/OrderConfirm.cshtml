@@ -1,0 +1,199 @@
+﻿@model OnlineShopDemo.Data.WebDBContext.OrderRecord
+
+@{
+    ViewBag.Title = "確認訂貨";
+    ViewBag.Headtitle = "線上商店 | 確認訂貨";
+    ViewBag.background = Url.Content("~/images/ShopBanner.jpg");
+    ViewBag.background4k = Url.Content("~/images/ShopBanner4k.jpg");
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+}
+
+<section>
+    <div class="nav navbar-default SecNav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#SmallSecNav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="SmallSecNav">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("<訂貨", "Cart", "ShoppingCart")</li>
+                    <li><a>送出訂貨></a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><p class="navbar-text">1.選擇商品|</p></li>
+                    <li><p class="navbar-text">2.檢視購物車 |</p></li>
+                    <li><p class="navbar-text">3.訂貨 |</p></li>
+                    <li><p class="navbar-text">>>4.送出訂單 |</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h3 class="message">快完成囉，檢查一下資料是不是都正確吧</h3>
+    <hr />
+
+    <div class="container-fluid">
+        <div class="col-lg-8 col-md-6 col-sm-12">
+            <form asp-action="Create" method="post">
+                <div class="form-horizontal">
+                    <input asp-for="UserName" type="hidden" class="form-control" value="@User.Identity.Name.ToString()" /> <!-- DO NOT Delete. Data Validation will fail! -->
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label asp-for="OrdererName" class="col-md-6 col-sm-6 control-label">收件人姓名</label>
+                            <span class="col-md-6 col-sm-6">@Model.OrdererName.ToString()</span>
+                            <input asp-for="OrdererName" type="hidden" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-sm-offset-1">
+                            <label asp-for="PhoneNumber" class="col-md-6 col-sm-6 control-label">收件人的電話</label>
+                            <span class="col-md-6 col-sm-6">
+                                @Model.PhoneNumber.ToString()
+                            </span>
+                            <input asp-for="PhoneNumber" type="hidden" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-sm-offset-1">
+                            <label asp-for="ShippingAddress" class="col-md-6 col-sm-6 control-label">收件地址</label>
+                            <span class="col-md-6 col-sm-6">
+                                @Model.ShippingAddress.ToString()
+                            </span>
+                            <input asp-for="ShippingAddress" type="hidden" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-sm-offset-1">
+                            <label asp-for="EmailAddress" class="col-md-6 col-sm-6 control-label">收件人的電子郵件</label>
+                            <span class="col-md-6 col-sm-6">
+                                @Model.EmailAddress.ToString()
+                            </span>
+                            <input asp-for="EmailAddress" type="hidden" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-sm-offset-1">
+                            <label asp-for="PaymentMethod" class="col-md-6 col-sm-6 control-label">付款方式</label>
+                            <span class="col-md-6 col-sm-6">
+                                @Model.PaymentMethod.ToString()
+                            </span>
+                            <input asp-for="PaymentMethod" type="hidden" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-sm-offset-1">
+                            <label asp-for="Note" class="col-md-6 col-sm-6 control-label">備註</label>
+                            <span class="col-md-6 col-sm-6">
+                                @{if (Model.Note != null)
+                                    {
+                                        @Model.Note.ToString()
+                                    }
+                                    else
+                                    {
+                                        <span> 無 </span>
+                                    }
+                                }
+                            </span>
+                            <input asp-for="Note" type="hidden" class="form-control" />
+                        </div>
+
+                        <div class="col-md-12">
+                            @await Component.InvokeAsync("ShoppingCartList")
+                        </div>
+                </div>
+                <hr class="col-md-12" />
+
+                <div class="col-md-3 col-sm-12 form-group">
+                    <input type="submit" value="確認送出" class="btn btn-block btn-default " />
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 Price">
+            <div class="flex">
+                <h4>@ViewBag.ProductCount 個商品小記</h4>
+                <h4>@ViewBag.Price 元</h4>
+            </div>
+            <div class="flex">
+                <h4>運費</h4>
+                <h4>@ViewBag.ShippingFee 元</h4>
+            </div>
+            <hr />
+            <div class="flex">
+                <h4 class="Total">總計:</h4>
+                <h4 class="Total">@(ViewBag.Price + ViewBag.ShippingFee) 元</h4>
+            </div>
+        </div>
+
+    </div>
+</section>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<style type="text/css">
+    section {
+        width: 100%;
+        min-height: 25px;
+        margin: 0;
+        padding: 10px;
+        padding-bottom: 0;
+    }
+
+
+    .message {
+        text-align: center;
+    }
+
+    .form-horizontal .control-label {
+        padding-top: 0;
+    }
+
+    .SecNav {
+        background-color: steelblue;
+    }
+
+    .navbar-default .navbar-text {
+        color: white;
+        padding-left: 15px;
+    }
+
+    .nav .navbar-nav li a {
+        color: white;
+    }
+
+        .nav .navbar-nav li a:hover {
+            color: gainsboro;
+        }
+
+
+    .Price {
+        text-align: left;
+        border: solid;
+        border-width: 2px;
+        border-color: lightgray;
+        align-items: center;
+    }
+
+        .Price hr {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .Price .flex {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .Price .Total {
+            color: saddlebrown;
+        }
+
+        .Price a {
+            margin-bottom: 6px;
+            color: saddlebrown;
+        }
+
+    @@media (max-width:1100px) {
+    }
+</style>

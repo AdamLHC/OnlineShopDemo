@@ -1,0 +1,140 @@
+﻿@model IEnumerable<OnlineShopDemo.Data.WebDBContext.Products>
+
+@{
+    ViewBag.Title = "商品管理";
+    Layout = "~/Views/Shared/_BackstageLayout.cshtml";
+}
+
+<h1>商品管理</h1>
+<ul class="nav nav-tabs">
+    <li><a asp-action="CategoryList">產品種類列表</a></li>
+    <li  class="active">@Html.ActionLink("產品列表", "Index")</li>
+    <li>@Html.ActionLink("禮盒內容管理", "ProductSetList")</li>
+</ul>
+
+@Html.ActionLink("增加新產品", "Create", null, null, new { @class = "btn btn-default addbutton" })
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            產品照片
+        </th>
+        <th>
+            產品名稱
+        </th>
+        <th>
+            產品類型
+        </th>
+        <th>
+            產品介紹
+        </th>
+        <th>
+            價格
+        </th>
+        <th>
+            販售狀態
+        </th>
+        <th>
+            上市日期
+        </th>
+        <th>
+            備註
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img class="img-thumbnail" src="@Url.Content($"~/images/ProductResource/{item.ProductID}.jpg")" height="400" width="400" asp-append-version="true" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Introduction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @{
+                    if (item.PublishDate.HasValue)
+                    {
+                        @item.PublishDate.Value.ToString("d")
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.ActionLink("詳細", "Details", new { id = item.ProductID }, new { @class = "btn btn-default" }) |
+                @Html.ActionLink("編輯", "Edit", new { id = item.ProductID }, new { @class = "btn btn-default" }) |
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#@item.ProductID-DELETE">刪除</button> |
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#@item.ProductID-UPLOAD">上傳照片</button>
+
+                <!-- Modal for Delete -->
+                <div id="@item.ProductID-DELETE" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">刪除</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>確定要永久刪除產品: <code> @Html.DisplayFor(modelItem => item.ProductName)</code> 嗎?</p>
+                                <p>如果產品缺貨，強烈建議先下架即可。</p>
+                                <p class="text-danger">警告: 刪除產品不會一起刪除訂單中的紀錄，請確認有多少顧客已經訂購了這個產品。</p>
+                            </div>
+                            <div class="modal-footer">
+                                @Html.ActionLink("確認", "Delete", new { id = item.ProductID }, new { @class = "btn btn-danger" })
+                                <span> | </span>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for Image upload -->
+                <div id="@item.ProductID-UPLOAD" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">上傳照片</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h5>為  @item.ProductName 上傳照片</h5>
+                                <p class="text-warning ">註: 目前僅支援.jpg副檔名，請轉換成jpg並注意圖片大小</p>
+                                <hr />
+                                @await Component.InvokeAsync("ProductImageUpload", new { id = item.ProductID })
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+                    }
+</table>
+
+<style>
+    .addbutton {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>

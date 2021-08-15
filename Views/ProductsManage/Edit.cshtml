@@ -1,0 +1,144 @@
+﻿@model OnlineShopDemo.Data.WebDBContext.Products
+
+@{
+    ViewBag.Title = "編輯商品";
+    Layout = "~/Views/Shared/_BackstageLayout.cshtml";
+}
+
+<h1>商品管理</h1>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3>編輯產品</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProductID)
+        @Html.HiddenFor(model => model.CategoryID)
+
+        <!--     Due to CategoryID being Primary Key, need future maintaince to activate this. Or EF will lost track of this entity.
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryID, "產品類型", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>  -->
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductName, "產品名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductName, "需要產品名稱", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Introduction, "產品介紹", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Introduction, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Introduction, "需要產品介紹", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, "價格", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "需要價格", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PackageSize, "尺寸", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PackageSize, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PackageSize, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Weight, "重量", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Weight, "只接受純數字，單位為公克", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, "販售狀態", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    //Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } });
+                    var listitem = new SelectList(new[]
+                    {
+                        new SelectListItem {Text= "上市",Value="上市" },
+                        new SelectListItem {Text= "下架",Value="下架" },
+                        new SelectListItem {Text= "缺貨",Value="缺貨" },
+                        new SelectListItem {Text= "等待上市",Value="未上市" }
+                    }, "Text", "Value", Model.Status);
+                }
+                @Html.DropDownListFor(Model => Model.Status, listitem, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PublishDate, "上市日期", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PublishDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.PublishDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Notes, "備註", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.CategoryID)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="完成" class="btn btn-default" />
+                @Html.ActionLink("取消", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+                    }
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<environment names="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"
+            asp-fallback-src="~/lib/jquery-ui/jquery-ui.min.js"
+            asp-fallback-test="window.jQuery-ui">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+
+<script type="text/javascript">
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+</script>

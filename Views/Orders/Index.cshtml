@@ -1,0 +1,76 @@
+﻿@model IEnumerable<OnlineShopDemo.Data.WebDBContext.OrderRecord>
+
+@{
+    ViewBag.Title = "訂單";
+    ViewBag.Headtitle = "訂單";
+    ViewBag.background = Url.Content("~/images/ShopBanner.jpg");
+    ViewBag.background4k = Url.Content("~/images/ShopBanner4k.jpg");
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                訂貨日期
+            </th>
+            <th>
+                姓名
+            </th>
+            <th>
+                電話
+            </th>
+            <th>
+                地址
+            </th>
+            <th>
+                總價
+            </th>
+            <th>
+                付款方式
+            </th>
+            <th>
+                訂單狀態
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.IsShipped == true)
+            {
+                ViewBag.trCSS = "success";
+                ViewBag.OrderStatus = "已經送出";
+            }
+            else if (item.IsShipped == false)
+            {
+                ViewBag.trCSS = "info";
+                ViewBag.OrderStatus = "處理中";
+            }
+
+            <tr class="@ViewBag.trCSS">
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderCreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdererName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippingAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                </td>
+                <td>
+                    @ViewBag.OrderStatus
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

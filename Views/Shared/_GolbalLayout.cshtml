@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+
+<environment names="Development">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</environment>
+<environment names="Staging,Production">
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+</environment>
+
+<environment names="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title | _ONLINE DEMO</title>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#SmallDeviceNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand-text navbar-brand" href="~/">_ONLINE</a>
+            </div>
+            <div class="collapse navbar-collapse" id="SmallDeviceNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">@Html.ActionLink("關於這個網站", "Credit", "Reception")</li>
+                    <li class="nav-item">@Html.ActionLink("產品類型A", "List", "Products")</li>
+                    <li class="nav-item">@Html.ActionLink("產品類型B", "FarmList", "Products")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <div class="nav-safe"><!--Blank safe area for navbar, so there's no content will be blocked by navbar.--></div>
+    <header>
+        <div class="headr-title-section">
+            <h1 class="headr-title">@ViewBag.Headtitle</h1>
+            @{if (ViewBag.HeadtitleSmall != null)
+                {
+                    <h3 class="headr-title">@ViewBag.HeadtitleSmall</h3>
+                }
+            }
+        </div>
+    </header>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <footer class="foot">
+        <p class="foot-text">[本網站僅保留作為展示用途，非商業用途] 劉興禎 2020-4-25</p>
+    </footer>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<style type="text/css">
+    html, body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        animation: fadein 1s;
+    }
+
+    .headr-title-section {
+        position: absolute;
+        top: 9%;
+        left: 10%;
+    }
+
+    header {
+        width: 100%;
+        height: 25%;
+        background-position: center;
+        background-image: url( @ViewBag.background );
+        background-repeat:no-repeat;
+    }
+
+    .headr-title-section h1 {
+        margin-top: 10px;
+        font-size: 50px;
+        font-weight: bold;
+        color: white;
+        font-weight: bold;
+        letter-spacing: -1px;
+        background: rgba(70,130,180,0.75);
+        padding: 10px;
+    }
+
+    .headr-title-section h3 {
+        margin: 0;
+        color: white;
+        letter-spacing: -1px;
+        background: rgba(70,130,180, 0.75);
+        padding: 10px;
+    }
+
+    .container {
+        max-width: 1600px;
+    }
+
+    .nav-safe {
+        min-height: 50px;
+        width: 100%;
+    }
+
+    .navbar-default .navbar-brand {
+        color: steelblue;
+        font-weight: bold;
+    }
+
+        .navbar-default .navbar-brand:hover {
+            color: lightsteelblue;
+            font-weight: bold;
+        }
+
+    .navbar-default .navbar-nav:hover {
+        color: gray;
+    }
+
+    .container .body-content {
+        margin-top: 340px;
+    }
+
+    .foot { /* GET THE ---- DOWN */
+        width: 100%;
+        background-color: black;
+        margin: 0;
+        padding: 0;
+    }
+
+    .foot-text {
+        color: grey;
+        padding-top: 12px;
+        padding-left: 10px;
+        padding-bottom: 12px;
+        font-size: 15px;
+        text-align: left;
+        margin: 0;
+    }
+
+    /* This css is required or validation message will show on load. */
+    /* Because someone in Microsoft is lazy. */
+    .field-validation-valid {
+        display: none;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    @@keyframes fadein {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @@media(min-width:2000px) { /* For 2k plus screen to 4k */
+        header {
+            background-image: url( @ViewBag.background4k );
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .headr-title-section h1 {
+            font-size: 90px;
+        }
+
+        .headr-title-section h3 {
+            font-size: 40px;
+        }
+    }
+
+    @@media (max-width: 1100px) {
+
+        .headr-title-section {
+            position: absolute;
+            top: 9%;
+            left: 8%;
+            background: rgba(0, 0, 0, 0);
+            padding: 0px;
+        }
+
+
+            .headr-title-section h1 {
+                margin-top: 20px;
+                font-size: 32px;
+                padding: 10px;
+                display: inline-block;
+            }
+
+            .headr-title-section h3 {
+                visibility: hidden;
+            }
+
+        .navbar-header {
+            float: none;
+        }
+
+        .navbar-left, .navbar-right {
+            float: none !important;
+        }
+
+        .navbar-toggle {
+            display: block;
+        }
+
+        .navbar-collapse {
+            border-top: 1px solid transparent;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        .navbar-fixed-top {
+            top: 0;
+            border-width: 0 0 1px;
+        }
+
+        .navbar-collapse.collapse {
+            display: none !important;
+        }
+
+        .navbar-nav {
+            float: none !important;
+            margin-top: 7.5px;
+        }
+
+            .navbar-nav > li {
+                float: none;
+            }
+
+                .navbar-nav > li > a {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                }
+
+        .collapse.in {
+            display: block !important;
+        }
+    }
+</style>

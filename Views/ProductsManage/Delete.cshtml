@@ -1,0 +1,98 @@
+﻿@model OnlineShopDemo.Data.WebDBContext.Products
+
+@{
+    ViewBag.Title = "刪除商品";
+    Layout = "~/Views/Shared/_BackstageLayout.cshtml";
+}
+
+<h1>商品管理</h1>
+<hr />
+<h3>刪除產品</h3>
+<h4 class="danger">確定要永久刪除 <code> @Html.DisplayFor(item => item.ProductName)</code> 嗎? 刪除後就無法復原了。</h4>
+<div>
+    <hr />
+    <h4>即將刪除的產品資料</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            產品名稱
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            產品種類
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
+        <dt>
+            產品介紹
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Introduction)
+        </dd>
+
+        <dt>
+            產品價格
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            包裝尺寸
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageSize)
+        </dd>
+
+        <dt>
+            產品重量
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+
+        <dt>
+            上市狀態
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+           上市日期
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+
+        <dt>
+            備註
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="刪除" class="btn btn-danger" /> |
+            @Html.ActionLink("取消", "Index",null,null,new {@class="btn btn-default" })
+        </div>
+    }
+</div>

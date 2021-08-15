@@ -1,0 +1,101 @@
+﻿@model OnlineShopDemo.Data.WebDBContext.Products
+
+@{
+    ViewBag.Title = $"{Model.ProductName}";
+    ViewBag.Headtitle = "線上商店 | 咖啡";
+    ViewBag.background = Url.Content("~/images/ShopBanner.jpg");
+    ViewBag.background4k = Url.Content("~/images/ShopBanner4k.jpg");
+    ViewBag.mode = "List";
+    ViewBag.CaeNavStart = 0; //For CategoryNav ViewComponent
+    ViewBag.CaeNavEnd = 2; //For CategoryNav ViewComponent
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+    @await Component.InvokeAsync("CategoryNav", new { mode = ViewBag.mode, Start = ViewBag.CaeNavStart, End = ViewBag.CaeNavEnd });//Display function Bar
+}
+
+<section>
+    <div class="container">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <img class="product-image" src="@Url.Content($"~/images/ProductResource/{Model.ProductID}.jpg")" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+
+            <h2 class="Product-title">@Html.DisplayFor(modelItem => Model.ProductName)</h2>
+
+            <hr />
+
+            <h3>@Html.DisplayFor(modelItem => Model.Introduction)</h3>
+
+            <br />
+
+            <h5 class="Info">@Html.DisplayFor(modelItem => Model.Notes)</h5>
+
+
+            <h5 class="Info">@Html.DisplayFor(model => model.PackageSize)</h5>
+
+
+            @{
+                if (Model.Weight != null)
+                {
+                    <h5 class="Info">@Html.DisplayFor(model => model.Weight) 公克裝</h5>
+                }
+            }
+
+            @{
+                if (Model.CategoryID == 2)
+                {
+                    @await Component.InvokeAsync("ProductSetList", new { id = Model.ProductID }) //Display ProductSet List
+                }
+            }
+
+            <h3 class="Info price">NT$@Html.DisplayFor(modelItem => Model.Price)</h3>
+
+            <span>|</span> @Html.ActionLink("放進購物車", "AddtoCart", "ShoppingCart", new { id = Model.ProductID }, null) <span>|</span> <a herf="~" onclick="goBack()">返回</a> <span>|</span>
+
+            <hr />
+        </div>
+    </div>
+</section>
+
+<script>
+                function goBack() {
+                    window.history.back();
+                }
+</script>
+
+<style>
+    .product-image {
+        width: 100%;
+    }
+
+    section {
+        padding: 10px;
+    }
+
+    .Product-title {
+        color: steelblue;
+        font-weight: bold;
+    }
+
+    .price {
+        vertical-align: bottom;
+    }
+
+    .Info {
+        margin-top: 10px;
+        color: dimgrey;
+    }
+
+    @@media (max-width: 1100px) {
+        .container {
+            width: auto;
+        }
+
+        .container h3{
+            font-size:22px;
+            line-height:1.4;
+            font-weight:300;
+        }
+
+    }
+</style>
+

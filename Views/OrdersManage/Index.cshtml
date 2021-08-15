@@ -1,0 +1,20 @@
+﻿@model IEnumerable<OrderRecord>
+
+@{
+    ViewData["Title"] = "訂單管理";
+    Layout = "~/Views/Shared/_BackstageLayout.cshtml";
+}
+
+<h1>訂單管理 - 總攬</h1>
+<hr />
+<h3>最近未完成的訂單</h3>
+<a asp-action="OrderList" asp-route-isShipped="False"
+   asp-route-isCanceled="False" asp-route-PageSize="20" asp-route-Orderby="OrderCreateDate" asp-route-Page="1">檢視全部></a>
+@await Component.InvokeAsync("OrdersListManage", new { Shipped = false, Select = 5, Deleted = false })
+
+<h3>最近已完成訂單</h3>
+<a asp-action="OrderList" asp-route-isShipped="True"
+   asp-route-isCanceled="False" asp-route-PageSize="20" asp-route-Orderby="OrderCreateDate" asp-route-Page="1">檢視全部></a>
+@await Component.InvokeAsync("OrdersListManage", new { Shipped = true, Select = 5, Deleted = false })
+
+<a asp-action="OrderList" asp-route-PageSize="20" asp-route-Orderby="OrderCreateDate" asp-route-Page="1">檢視所有訂單></a>

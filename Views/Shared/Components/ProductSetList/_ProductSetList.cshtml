@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ProductSetRecord>
+    @{
+        Layout = null;
+    }
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            這個禮盒內含:
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Product.ProductName ,"Details",new {id= item.ProductID })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)個
+        </td>
+    </tr>
+}
+</table>

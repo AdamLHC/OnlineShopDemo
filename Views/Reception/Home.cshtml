@@ -1,0 +1,439 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<environment names="Development">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+    <title>_ONLINE 線上商店 DEMO</title>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#SmallDeviceNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand-text navbar-brand" href="~/">_ONLINE</a>
+            </div>
+            <div class="collapse navbar-collapse" id="SmallDeviceNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">@Html.ActionLink("關於這個網站", "Credit", "Reception")</li>
+                    <li class="nav-item">@Html.ActionLink("產品類型A", "List", "Products")</li>
+                    <li class="nav-item">@Html.ActionLink("產品類型B", "FarmList", "Products")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <header class="Header">
+        <video playsinline autoplay muted loop poster="~/images/Welcome.jpg" id="bgvid">
+            <!--<source src="~/videos/Vback.mp4" type="video/mp4">-->
+        </video>
+        <img src="~/images/LOGO.jpeg" class="img-rounded" height="250" width="250" />
+        <hr />
+        <h1>小型線上商店示範站</h1>
+        <p>歡迎</p>
+        <a href="#linkImg" class="Scroll"><img src="~/images/white down arrow.svg" height="48" width="48" /></a>
+    </header>
+
+    <section class="Intro">
+        <h1>本網站由過去商轉系統修改而來，保留為展示用途</h1>
+        <hr />
+    </section>
+
+    <section class="LinkIn" id='linkImg'>
+        <h1>繼續</h1>
+        <div class="container">
+            <a href="@Url.Action("List", "Products")">
+                <div class="col-lg-6 col-md-6 col-sm-12 LinkImg">
+                    <img src="~/images/CoffeeBags.jpg" />
+                    <h2>產品頁面</h2>
+                </div>
+            </a>
+            <a href="@Url.Action("Credit", "Reception")">
+                <div class="col-lg-6 col-md-6 col-sm-12 LinkImg">
+                    <img src="~/images/store.jpg" />
+                    <h2>關於這個網站</h2>
+                </div>
+            </a>
+        </div>
+    </section>
+    <footer class="foot">
+        <p>[本網站僅保留作為展示用途，非商業用途] 劉興禎 2020-4-25</p>
+    </footer>
+</body>
+</html>
+
+<script type="text/javascript">
+    //Turns Navbar to transparent background if user scrolled.
+    function checkNavPosition() {
+        var startYp = $('.navbar').height() * 0.2;
+        if ($(window).scrollTop() > startYp) {
+            $('.navbar').removeClass("AtTop");
+        }
+        else {
+            $('.navbar').addClass("AtTop");
+        }
+    }
+
+    //Only activate function after rendering.
+    if ($('.navbar').length > 0) {
+        $(window).on("scroll load resize", function () { checkNavPosition(); });
+    }
+
+    // jQuery for page scrolling feature - requires jQuery Easing plugin
+    $(function () {
+        $('.Scroll').bind('click', function (event) {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 800);
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+
+<style type="text/css">
+    a[ id=linkImg ]:target ~ #linkImg {
+        transform: translateY( -200px );
+    }
+
+    html, body {
+        height: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        animation: fadein 2s;
+    }
+
+    video#bgvid {
+        position: fixed;
+        top: 50%;
+        left: 49.99%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -100;
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        background: url(~/images/CoffeeBeans1.jpg) no-repeat;
+        background-size: cover;
+    }
+
+    .navbar {
+        transition: all 0.6s ease-out;
+    }
+
+        .navbar.AtTop {
+            background: rgba(0,0,0,0.1);
+        }
+
+    .navbar-default .navbar-nav:hover {
+        color: gray;
+    }
+
+    .navbar-default .navbar-brand {
+        color: steelblue;
+        font-weight: bold;
+    }
+
+        .navbar-default .navbar-brand:hover {
+            color: brown;
+            font-weight: bold;
+        }
+
+    section {
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+
+    h1 {
+        margin: 0;
+        padding: 0;
+    }
+
+    .Header {
+        position: relative;
+        min-height: 100%;
+        width: 100%;
+        enable-background: 0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .Header hr {
+            border: 0;
+            background-color: steelblue;
+            height: 3px;
+            width: 100px;
+        }
+
+        .Header h1 {
+            text-align: center;
+            color: white;
+            font-size: 70px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .Header p {
+            font-weight: 500;
+            margin-top: 10px;
+            color: gainsboro;
+            font-size: 30px;
+        }
+
+        .Header a {
+            font-size: 22px;
+            background-color: transparent;
+            border-color: white;
+            color: white;
+            opacity: 0;
+            animation: fadein 1s ease-in-out 2.2s;
+            animation-fill-mode: forwards;
+        }
+
+            .Header a:hover {
+                color: white;
+            }
+
+    .Intro {
+        min-height: 20%;
+        width: 100%;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+
+        .Intro h1 {
+            color: black;
+            font-weight: 600;
+            font-size: 30px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .Intro hr {
+            border: 0;
+            background-color: steelblue;
+            height: 3px;
+            width: 100px;
+        }
+
+    .LinkIn {
+        min-height: 30%;
+        width: 100%;
+        color: white;
+        background-color: steelblue;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+
+        .LinkIn h1 {
+            color: white;
+            font-weight: 600;
+            font-size: 20px;
+            padding-top: 20px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .LinkIn .container {
+            width: 100%;
+            padding: 0;
+            padding-top: 10px;
+            padding-bottom: 0px;
+        }
+
+    .box-caption {
+        color: #fff;
+        opacity: 0;
+        display: block;
+        background: rgba(240,95,64,.9);
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        transition: all .35s;
+    }
+
+    .LinkImg {
+        position: relative;
+        padding: 0;
+        margin: 0;
+    }
+
+        .LinkImg h2 {
+            color: white;
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            font-size: 40px;
+            font-weight: bold;
+            letter-spacing: -1px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+        }
+
+        .LinkImg :hover {
+            color: white;
+        }
+
+        .LinkImg img {
+            width: 100%;
+            padding: 0;
+        }
+
+    .foot {
+        width: 100%;
+        background-color: black;
+        margin: 0;
+        padding: 0;
+    }
+
+        .foot p {
+            color: grey;
+            padding-top: 12px;
+            padding-left: 10px;
+            padding-bottom: 12px;
+            font-size: 15px;
+            text-align: left;
+            margin: 0;
+        }
+
+    @@keyframes fadein {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @@media (max-width: 1100px) {
+        .navbar-header {
+            float: none;
+        }
+
+        .navbar-left, .navbar-right {
+            float: none !important;
+        }
+
+        .navbar-toggle {
+            display: block;
+        }
+
+        .navbar-collapse {
+            border-top: 1px solid transparent;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        .navbar-fixed-top {
+            top: 0;
+            border-width: 0 0 1px;
+        }
+
+        .navbar-collapse.collapse {
+            display: none !important;
+        }
+
+        .navbar-nav {
+            float: none !important;
+            margin-top: 7.5px;
+        }
+
+            .navbar-nav > li {
+                float: none;
+            }
+
+                .navbar-nav > li > a {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                }
+
+        .collapse.in {
+            display: block !important;
+        }
+
+        .Header img-rounded {
+            height: 150px;
+            width: 150px;
+        }
+
+        .Header h1 {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 5px;
+            
+        }
+
+        .Header p {
+            font-weight: 400;
+            margin-top: 5px;
+            color: gainsboro;
+            font-size: 20px;
+        }
+
+        .Intro h1 {
+            color: black;
+            font-weight: 400;
+            font-size: 20px;
+        }
+    }
+</style>

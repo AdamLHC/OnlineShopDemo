@@ -1,0 +1,132 @@
+﻿@using Microsoft.AspNetCore.Http
+@using OnlineShopDemo.Data.WebDBContext;
+@model Products
+
+@{
+    ViewBag.Title = "增加商品";
+    Layout = "~/Views/Shared/_BackstageLayout.cshtml";
+}
+
+<h1>商品管理</h1>
+<hr />
+<h3>增加新產品</h3>
+
+<form asp-controller="ProductsManage" asp-action="Create" method="post">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- ProductID and DBaddDate is handled in Controller. -->
+
+        <div class="form-group">
+            <!-- CategoryID -->
+            <label asp-for="CategoryID" class="col-md-2 control-label">商品種類</label>
+            <div class="col-md-10">
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- ProductName -->
+            <label asp-for="ProductName" class="col-md-2 control-label">商品名稱</label>
+            <div class="col-md-10">
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"><!-- Error Message is stored in Model class, inside ACSMetaDate.cs --></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- Introduction -->
+            <label asp-for="Introduction" class="col-md-2 control-label">商品介紹</label>
+            <div class="col-md-10">
+                <textarea rows="5" asp-for="Introduction" class="form-control"></textarea>
+                <span asp-validation-for="Introduction" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- Price -->
+            <label asp-for="Price" class="col-md-2 control-label">商品價格</label>
+            <div class="col-md-10">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- PackageSize -->
+            <label asp-for="PackageSize" class="col-md-2 control-label">商品尺寸</label>
+            <div class="col-md-10">
+                <input asp-for="PackageSize" class="form-control" />
+                <span asp-validation-for="PackageSize" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- ProductWeight -->
+            <label asp-for="Weight" class="col-md-2 control-label">重量(可選)</label>
+            <div class="col-md-10">
+                <input asp-for="Weight" class="form-control" />
+                <p><small>只接受純數字，單位為公克</small></p>
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- PublishDate -->
+            <label asp-for="PublishDate" class="col-md-2 control-label">上市日期(可選)</label>
+            <div class="col-md-10">
+                <input asp-for="PublishDate" class="form-control datepicker"/>
+                <span asp-validation-for="PublishDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- ProductStatus -->
+            <label asp-for="Status" class="col-md-2 control-label">販售狀態</label>
+            <div class="col-md-10">
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.ProductStatus"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- Notes -->
+            <label asp-for="Notes" class="col-md-2 control-label">備註(可選)</label>
+            <div class="col-md-10">
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger">備註過長，請減少字數</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="完成並儲存" class="btn btn-default" />
+                @Html.ActionLink("取消", "Index", null, null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<environment names="Development">
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"
+            asp-fallback-src="~/lib/jquery-ui/jquery-ui.min.js"
+            asp-fallback-test="window.jQuery-ui">
+    </script>
+</environment>
+
+<script type="text/javascript">
+    $(function () {
+        $(".datepicker").datepicker({ dateFormat: "yy/mm/dd" });
+    });
+</script>

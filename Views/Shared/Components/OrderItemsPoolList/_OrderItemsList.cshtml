@@ -1,0 +1,47 @@
+﻿@using OnlineShopDemo.Data.WebDBContext
+@model IEnumerable<OrderItemPool>
+
+
+<table class="table table-striped table-hover table-responsive">
+    <tr>
+        <th>
+            <span>商品</span>
+        </th>
+        <th>
+            <span>數量</span>
+        </th>
+        <th>
+            <span>數量*價格</span>
+        </th>
+        @{
+            if (ViewBag.IsManage == true)
+            {
+                <th>
+
+                </th>
+            }
+        }
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <span>@item.ProductName.ToString() </span>
+            </td>
+            <td>
+                <span>@item.Quanitiy.ToString() </span>
+            </td>
+            <td>
+                <span>@item.OrderedPrice.ToString() </span>
+            </td>
+            @{
+                if (ViewBag.IsManage == true)
+                {
+                    <td>
+                        <input type="checkbox">
+                    </td>
+                }
+            }
+        </tr>
+    }
+</table>

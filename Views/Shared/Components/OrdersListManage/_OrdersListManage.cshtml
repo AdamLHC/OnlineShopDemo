@@ -1,0 +1,100 @@
+﻿@model IEnumerable<OrderRecord>
+
+<table class="table table-hover">
+    <thead>
+            <tr>
+                <th>
+                    訂貨日期
+                </th>
+                <th>
+                    姓名
+                </th>
+                <th class="SMDeviceOpt">
+                    電話
+                </th>
+                <th class="SMDeviceOpt">
+                    地址
+                </th>
+                <th class="SMDeviceOpt">
+                    總價
+                </th>
+                <th class="SMDeviceOpt">
+                    付款方式
+                </th>
+                <th>
+                    訂單狀態
+                </th>
+                <th></th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.IsShipped == true)
+            {
+                ViewBag.trCSS = "success";
+                ViewBag.OrderStatus = "已經送出";
+            }
+            else if (item.IsCanceled == true)
+            {
+                ViewBag.trCSS = "";
+                ViewBag.OrderStatus = "訂單取消";
+            }
+            else if (item.IsShipped == false && DateTime.Compare(item.OrderCreateDate.AddDays(3), DateTime.Today) <= 0)
+            {
+                ViewBag.trCSS = "danger";
+                ViewBag.OrderStatus = "等待處理(已經超過3天!)";
+            }
+            else if (item.IsShipped == false)
+            {
+                ViewBag.trCSS = "warning";
+                ViewBag.OrderStatus = "等待處理";
+            }
+
+            <tr class="@ViewBag.trCSS">
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderCreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdererName)
+                </td>
+                <td class="SMDeviceOpt">
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td class="SMDeviceOpt">
+                    @Html.DisplayFor(modelItem => item.ShippingAddress)
+                </td>
+                <td class="SMDeviceOpt">
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td class="SMDeviceOpt">
+                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                </td>
+                <td>
+                    @ViewBag.OrderStatus
+                </td>
+                <td>
+                    @Html.ActionLink("檢視訂單", "Details", new { id = item.OrderID }, new { @class = "btn btn-default" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    if (Model.Count() == 0)
+    {
+        <p>是空的耶 :D</p>
+    }
+}
+
+<hr />
+
+<style type="text/css">
+    @@media(max-width:1100px) {
+        .SMDeviceOpt {
+            visibility: hidden;
+            display: none;
+        }
+    }
+</style>

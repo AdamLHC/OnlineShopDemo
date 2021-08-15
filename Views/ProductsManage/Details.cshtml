@@ -1,0 +1,90 @@
+﻿@model OnlineShopDemo.Data.WebDBContext.Products
+
+@{
+    ViewBag.Title = "商品詳細資訊";
+    Layout = "~/Views/Shared/_BackstageLayout.cshtml";
+}
+
+<h1>商品管理</h1>
+<hr />
+<h3>詳細資料</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            產品名稱
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            產品種類
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
+        <dt>
+            產品介紹
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Introduction)
+        </dd>
+
+        <dt>
+            價格
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            產品尺寸
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageSize)
+        </dd>
+
+        <dt>
+            產品重量
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+
+        <dt>
+            販售狀態
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            上市日期
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+
+        <dt>
+            備註
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-default" }) |
+    @Html.ActionLink("返回", "Index", null, new { @class = "btn btn-default" })
+</p>

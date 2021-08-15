@@ -1,0 +1,153 @@
+﻿@model OnlineShopDemo.Data.WebDBContext.OrderRecord
+
+@{
+    ViewBag.Title = "訂貨";
+    ViewBag.Headtitle = "線上商店 | 訂貨";
+    ViewBag.HeadtitleSmall = "在這裡詳細的寫上訂貨資料";
+    ViewBag.background = Url.Content("~/images/ShopBanner.jpg");
+    ViewBag.background4k = Url.Content("~/images/ShopBanner4k.jpg");
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+}
+
+<section>
+    <div class="nav navbar-default SecNav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#SmallSecNav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="SmallSecNav">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("<購物車", "Cart", "ShoppingCart")</li>
+                    <li><a>確認訂貨></a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><p class="navbar-text">1.選擇商品|</p></li>
+                    <li><p class="navbar-text">2.檢視購物車 |</p></li>
+                    <li><p class="navbar-text">>>3.訂貨 |</p></li>
+                    <li><p class="navbar-text">4.送出訂單 |</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr />
+
+<section>
+    <form asp-action="OrderConfirm" method="post">
+        <div class="form-horizontal">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input asp-for="UserName" type="hidden" class="form-control" value="@User.Identity.Name.ToString()" /> <!-- DO NOT Delete. Data Validation will fail! -->
+
+            <div class="form-group">
+                <label asp-for="OrdererName" class="col-md-2 control-label">收件人姓名</label>
+                <div class="col-md-10">
+                    <input asp-for="OrdererName" class="form-control" />
+                    <span asp-validation-for="OrdererName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="col-md-2 control-label">收件人的電話</label>
+                <div class="col-md-10">
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="col-md-2 control-label">收件人的電子郵件</label>
+                <div class="col-md-10">
+                    <input asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShippingAddress" class="col-md-2 control-label">收件地址</label>
+                <div class="col-md-10">
+                    <textarea asp-for="ShippingAddress" class="form-control"></textarea>
+                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Note" class="col-md-2 control-label">需要注意的地方</label>
+                <div class="col-md-10">
+                    <textarea asp-for="Note" class="form-control"></textarea>
+                    <span asp-validation-for="Note" class="text-danger"></span>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="form-group">
+                <label asp-for="PaymentMethod" class="col-md-2 control-label">付款方式</label>
+                <div class="col-md-10">
+                    <select asp-for="PaymentMethod" class="form-control" asp-items="ViewBag.PaymentMethod"></select>
+                    <p><small>購物額滿3000元以上免運費，"貨到付款"酌收運費150元，"匯款"運費100元，請將款項匯至中國信託銀行(822)126-54013893-4(戶名:張弘典)。</small></p>
+                    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="訂貨" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+<hr />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<style type="text/css">
+    section {
+        width: 100%;
+        min-height: 25px;
+        margin: 0;
+        padding: 10px;
+        padding-bottom: 0;
+    }
+
+    span {
+        font-size: 15px;
+    }
+
+    .table tbody tr td {
+        vertical-align: middle;
+    }
+
+    td a {
+        font-size: 15px;
+    }
+
+    .col-xs-6 {
+        padding: 0;
+    }
+
+    .SecNav {
+        background-color: steelblue;
+    }
+
+    .navbar-default .navbar-text {
+        color: white;
+        padding-left: 15px;
+    }
+
+    .nav .navbar-nav li a {
+        color: white;
+    }
+
+        .nav .navbar-nav li a:hover {
+            color: gainsboro;
+        }
+</style>

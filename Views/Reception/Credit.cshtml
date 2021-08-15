@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "網站資訊";
+    ViewBag.Headtitle = "網站資訊";
+    ViewBag.background = Url.Content("~/images/LoginBanner.jpg");
+    ViewBag.background4K = Url.Content("~/images/LoginBanner4K.jpg");
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+    <meta name="author" content="劉興禎(Adam Liu)">
+</head>
+
+<hr />
+
+<h2>@Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationName  小型線上商店示範站</h2>
+<hr />
+<p>這個網站是作者在大學產學合作時期的作品，移除商標與智慧財產權後保留的展示用網站，保留後台與訂購功能。</p>
+<p>2018-2020 劉興禎(Adam Liu)</p>
+<p>Build @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion</p>
+
+<hr />
+
+<style type="text/css">
+    h2 {
+        color: steelblue;
+    }
+</style>

@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "訂貨完成";
+    ViewBag.Headtitle = "線上商店 | 訂貨完成";
+    ViewBag.background = Url.Content("~/images/ShopBanner.jpg");
+    ViewBag.background4k = Url.Content("~/images/ShopBanner4k.jpg");
+    Layout = "~/Views/Shared/_GolbalLayout.cshtml";
+}
+
+<section>
+    <div class="nav navbar-default SecNav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#SmallSecNav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="SmallSecNav">
+                <ul class="nav navbar-nav">
+                    <li><a>完成</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><p class="navbar-text">1.選擇商品|</p></li>
+                    <li><p class="navbar-text">2.檢視購物車 |</p></li>
+                    <li><p class="navbar-text">3.訂貨 |</p></li>
+                    <li><p class="navbar-text">V 4.送出訂單 |</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="Finish">
+    <h1> 謝謝光臨!</h1><h1>歡迎再次光臨_ONLINE線上商店</h1>
+    <hr />
+    <h3> 您的訂貨已經在處理中，可以到會員專區中查看這筆訂貨的進度</h3>
+    <div class="BTNs btn-group">
+        @Html.ActionLink("< 回到首頁", "Home", "Reception", null, new { @class = "btn btn-default", type = "button" })
+        @Html.ActionLink("會員專區", "Index", "Manage", null, new { @class = "btn btn-default", type = "button" })
+        @Html.ActionLink("繼續購物>", "List", "Products", null, new { @class = "btn btn-default", type = "button" })
+    </div>
+</div>
+<!-- 右上角 <img />-->
+
+<style>
+    section {
+        width: 100%;
+        min-height: 25px;
+        margin: 0;
+        padding: 10px;
+        padding-bottom: 0;
+    }
+
+    .Finish {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+        .Finish hr {
+            border: 0;
+            background-color: steelblue;
+            height: 3px;
+            width: 150px;
+            margin: 10px 0px;
+        }
+
+        .Finish h1 {
+            color: steelblue;
+            font-weight: 700;
+            margin-top:10px;
+            font-size: 45px;
+        }
+
+        .Finish h3 {
+            color: dimgrey;
+        }
+
+        .Finish .BTNs {
+            width: inherit;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    div span {
+        justify-content: center;
+    }
+
+    .SecNav {
+        background-color: steelblue;
+    }
+
+    .navbar-default .navbar-text {
+        color: white;
+        padding-left: 15px;
+    }
+
+    .nav .navbar-nav li a {
+        color: white;
+    }
+
+        .nav .navbar-nav li a:hover {
+            color: gainsboro;
+        }
+
+
+        @@media (max-width:1100px){
+            .Finish h1 {
+                font-weight: 500;
+                font-size: 26px;
+            }
+
+            .Finish h3 {
+                font-size:20px;
+                color: dimgrey;
+                text-align:center;
+            }
+        }
+
+</style>

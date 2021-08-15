@@ -1,0 +1,43 @@
+﻿@model IEnumerable<OnlineShopDemo.Data.WebDBContext.Products>
+
+
+@if (Model.Count() != 0)
+{
+
+    <h5 class="text-danger">警告:這個操作將會連帶刪除以下的產品!</h5>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+}
